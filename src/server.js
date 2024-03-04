@@ -4,6 +4,7 @@ const connectDB = require('./config/db');
 const productRoutes = require('./api/routes/productRoutes');
 const categoryRoutes = require('./api/routes/categoryRoutes');
 const userRoutes = require('./api/routes/userRoutes');
+const authRoutes = require('./api/routes/authRoutes');
 const roleRoutes = require('./api/routes/roleRoutes');
 const routeImages = require('./api/routes/upload');
 const app = express(); // Khai báo biến app trước khi sử dụng nó
@@ -14,23 +15,21 @@ app.use(cors());
 
 // Connect to MongoDB
 connectDB();
-//image
-app.use('/image', routeImages)
-// Middleware to parse JSON data
 app.use(express.json());
 
-// Route handler for products
-app.use('/product', productRoutes);
-// Route handler for category
-app.use('/category', categoryRoutes);
-// Routes handler for user
-app.use('/user', userRoutes);
-// Routes handler for role
-app.use('/role', roleRoutes);
+// All Routes this here
+app.use('/api/auth', authRoutes);
+app.use('/api/image', routeImages);
+app.use('/api/product', productRoutes);
+app.use('/api/category', categoryRoutes);
+app.use('/api/user', userRoutes);
+app.use('/api/role', roleRoutes);
 
-// Default route handler
-app.get('/', (req, res) => {
-    res.send('Hello node api!');
+
+
+
+app.get('/api/', (req, res) => {
+    res.send('Hello!');
 });
 
 // Start the server
