@@ -2,29 +2,27 @@ const mongoose = require('mongoose');
 
 const postSchema = mongoose.Schema(
     {
-        name:{
+        title:{
             type:String,
             required:[true, "Please enter a product name"]
         },
-        quantity:{
-            type: Number,
+        introduction:{
+            type: String,
             required: true,
-            default: 0
+            
         },
-        price:{
-            type: Number,
+        body:{
+            type: String,
             required: true
         },
-        description:{
+        conclusion:{
             type: String,
-            required:false,
+            required:true,
 
         },
-        image:{
-            type: String,
-            required: false
-        },
-        category: {
+       
+        
+        user: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User'
         }

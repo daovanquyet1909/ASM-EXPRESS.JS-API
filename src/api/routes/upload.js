@@ -1,6 +1,6 @@
 const express = require('express');
 const multer = require('multer');
-const { uploadImages } = require('../controllers/images');
+const { uploadImages } = require('../controllers/uploadImages');
 const routeImages = express.Router();
 
 // Khởi tạo multer

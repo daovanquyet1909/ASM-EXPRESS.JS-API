@@ -1,6 +1,6 @@
 const Product = require('../models/productModel');
 
-// Controller để lấy tất cả sản phẩm
+
 exports.getAllProducts = async (req, res) => {
     try {
         const products = await Product.find({});
@@ -10,7 +10,7 @@ exports.getAllProducts = async (req, res) => {
     }
 }
 
-// Controller để lấy một sản phẩm dựa trên ID
+
 exports.getProductById = async (req, res) => {
     try {
         const { id } = req.params;
@@ -21,7 +21,7 @@ exports.getProductById = async (req, res) => {
     }
 }
 
-// Controller để tạo một sản phẩm mới
+
 exports.createProduct = async (req, res) => {
     try {
         const product = await Product.create(req.body);
@@ -31,7 +31,7 @@ exports.createProduct = async (req, res) => {
     }
 }
 
-// Controller để cập nhật thông tin của một sản phẩm dựa trên ID
+
 exports.updateProduct = async (req, res) => {
     try {
         const { id } = req.params;
@@ -42,7 +42,7 @@ exports.updateProduct = async (req, res) => {
     }
 }
 
-// Controller để xóa một sản phẩm dựa trên ID
+
 exports.deleteProduct = async (req, res) => {
     try {
         const { id } = req.params;

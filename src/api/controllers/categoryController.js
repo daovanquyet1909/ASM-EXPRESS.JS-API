@@ -1,6 +1,5 @@
 const Category = require('../models/categoryModel');
 
-// Controller để lấy tất cả loại sản phẩm
 exports.getAllCategory = async (req, res) => {
     try {
         const categorys = await Category.find({});
@@ -10,7 +9,7 @@ exports.getAllCategory = async (req, res) => {
     }
 }
 
-// Controller để lấy một sản phẩm dựa trên ID
+
 exports.getCategoryById = async (req, res) => {
     try {
         const { id } = req.params;
@@ -21,7 +20,7 @@ exports.getCategoryById = async (req, res) => {
     }
 }
 
-// Controller để tạo một sản phẩm mới
+
 exports.createCategory = async (req, res) => {
     try {
         const category = await Category.create(req.body);
@@ -31,7 +30,7 @@ exports.createCategory = async (req, res) => {
     }
 }
 
-// Controller để cập nhật thông tin của một sản phẩm dựa trên ID
+
 exports.updateCategory = async (req, res) => {
     try {
         const { id } = req.params;
@@ -42,7 +41,7 @@ exports.updateCategory = async (req, res) => {
     }
 }
 
-// Controller để xóa một sản phẩm dựa trên ID
+
 exports.deleteCategory = async (req, res) => {
     try {
         const { id } = req.params;

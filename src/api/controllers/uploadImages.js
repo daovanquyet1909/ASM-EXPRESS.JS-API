@@ -1,4 +1,5 @@
 const cloudinary = require("../../config/cloudinaryConfig");
+const ImagePost = require('../models/imagePostModel');
 
 const uploadImages = async (req, res) => {
     try {
@@ -7,10 +8,16 @@ const uploadImages = async (req, res) => {
 
         for (let image of images) {
             const results = await cloudinary.uploader.upload(image);
-            console.log(results);
             uploadedImages.push({
                 url: results.secure_url,
                 publicId: results.public_id
+            });
+
+            // Tạo mới một ImagePost trong cơ sở dữ liệu với thông tin từ Cloudinary
+            await ImagePost.create({
+                url: results.secure_url,
+                cloudinaryImage: results.public_id,
+                title: req.body.title // hoặc thay bằng thông tin title bạn mong muốn lưu
             });
         }
 

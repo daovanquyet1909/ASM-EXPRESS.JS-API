@@ -1,6 +1,6 @@
 const Role = require('../models/roleModel')
 
-// Controller để lấy tất cả role
+
 exports.getAllRole = async (req, res) => {
     try {
         const roles = await Role.find({});
@@ -10,7 +10,7 @@ exports.getAllRole = async (req, res) => {
     }
 }
 
-// Controller để lấy một role dựa trên ID
+
 exports.getRoleById = async (req, res) => {
     try {
         const { id } = req.params;
@@ -21,7 +21,7 @@ exports.getRoleById = async (req, res) => {
     }
 }
 
-// Controller để tạo một role
+
 exports.createRole = async (req, res) => {
     try {
         const role = await Role.create(req.body);
@@ -31,7 +31,7 @@ exports.createRole = async (req, res) => {
     }
 }
 
-// Controller update role
+
 exports.updateRoleById = async (req, res) => {
     try {
         const { id } = req.params;
@@ -42,7 +42,7 @@ exports.updateRoleById = async (req, res) => {
     }
 }
 
-// Controller delete by id
+
 exports.deleteRoleById = async (req, res) => {
     try {
         const { id } = req.params;
