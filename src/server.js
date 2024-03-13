@@ -10,6 +10,12 @@ const userRoutes = require('./api/routes/userRoutes');
 const authRoutes = require('./api/routes/authRoutes');
 const roleRoutes = require('./api/routes/roleRoutes');
 const routeImages = require('./api/routes/upload');
+const routeCart = require('./api/routes/cartRoutes');
+const routeCartDetails = require('./api/routes/cartDetailsRoutes');
+const routeOrder = require('./api/routes/orderRoutes');
+const routeOrderDetails = require('./api/routes/orderDetailsRoutes');
+const routeOrderStatus = require('./api/routes/orderStatusRoutes');
+
 const app = express(); // Khai báo biến app trước khi sử dụng nó
 const port = process.env.PORT || 3000;
 
@@ -30,6 +36,11 @@ app.use('/api/post', postRoutes);
 app.use('/api/category', categoryRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/role', roleRoutes);
+app.use('/api/cart', routeCart);
+app.use('/api/cartdetails', routeCartDetails);
+app.use('/api/order', routeOrder);
+app.use('/api/orderdetails', routeOrderDetails);
+app.use('/api/orderstatus', routeOrderStatus);
 
 
 
