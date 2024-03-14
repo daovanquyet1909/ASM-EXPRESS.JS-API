@@ -1,20 +1,20 @@
 const express = require('express');
 const router = express.Router();
-const orderstatusController = require('../controllers/orderStatusController');
-// const checkPermission = require('../middlewares/checkPermison');
-// GET all orderstatus
-router.get('/', orderstatusController.getAllorderstatus);
+const orderStatusController = require('../controllers/orderStatusController');
 
-// GET orderstatus by ID
-router.get('/:id', orderstatusController.getorderstatusById);
+// GET all order status
+router.get('/', orderStatusController.getAllOrderStatus);
 
-// POST create new orderstatus
-router.post('/', orderstatusController.createorderstatus);
+// GET order status by ID
+router.get('/:id', orderStatusController.getOrderStatusById);
 
-// PUT update orderstatus by ID
-router.put('/:id', orderstatusController.updateorderstatus);
+// POST create new order status
+router.post('/', orderStatusController.createOrderStatus);
 
-// DELETE orderstatus by ID
-router.delete('/:id', orderstatusController.deleteorderstatus);
+// PUT update order status by ID
+router.put('/:id', orderStatusController.updateOrderStatus);
+
+// DELETE order status by ID
+router.delete('/:id', orderStatusController.deleteOrderStatus);
 
 module.exports = router;

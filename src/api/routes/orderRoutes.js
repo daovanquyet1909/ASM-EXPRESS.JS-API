@@ -1,15 +1,15 @@
+// routes.js
 const express = require('express');
 const router = express.Router();
 const orderController = require('../controllers/orderController');
-// const checkPermission = require('../middlewares/checkPermison');
+
+router.post('/createorder', orderController.placeOrder);
+
 // GET all orders
 router.get('/', orderController.getAllorders);
 
 // GET order by ID
 router.get('/:id', orderController.getorderById);
-
-// POST create new order
-router.post('/', orderController.createorder);
 
 // PUT update order by ID
 router.put('/:id', orderController.updateorder);

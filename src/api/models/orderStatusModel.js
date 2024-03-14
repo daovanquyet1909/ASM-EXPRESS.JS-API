@@ -4,7 +4,7 @@ const orderStatusSchema = mongoose.Schema(
     {
         name: {
             type: String,
-            required: [true, "Please enter a OrderStatus name"]
+            required: [true, "Please enter an OrderStatus name"]
         }
     },
     { timestamps: true }

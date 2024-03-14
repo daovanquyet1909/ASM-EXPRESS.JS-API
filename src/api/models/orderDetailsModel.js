@@ -7,10 +7,7 @@ const orderdetailsSchema = mongoose.Schema(
             type: Number,
             required: false,
         },
-        subtotal:{
-            type: Number,
-            required: false,
-        },
+       
         order: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Order'
@@ -19,10 +16,11 @@ const orderdetailsSchema = mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Product'
         },
-        orderstatus:{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'OrderStatus'
+        subtotal:{
+            type: Number,
+            required: false,
         },
+        
     },
     { timestamps: true }
 );

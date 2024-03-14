@@ -1,6 +1,7 @@
 const User = require('../models/userModel');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const Cart = require('../models/cartModel');
 
 // Controller login
 exports.login = async (req, res) => {
@@ -46,6 +47,10 @@ exports.createUser = async (req, res) => {
         
         // Tạo người dùng mới với mật khẩu đã mã hoá
         const newUser = await User.create({ username, email, password: hashedPassword, role: "65d9c80f8780848631d49b69" });
+        
+        // Tạo cart mới và lưu ID người dùng vào cart
+        const cart = new Cart({ user: newUser._id });
+        await cart.save();
         
         // Trả về thông báo thành công
         res.status(201).json({ message: 'User registered successfully', newUser });
