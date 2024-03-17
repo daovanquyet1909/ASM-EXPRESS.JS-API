@@ -3,7 +3,7 @@ const router = express.Router();
 const cartdetailsController = require('../controllers/cartDetailsController');
 // const checkPermission = require('../middlewares/checkPermison');
 // GET all cartdetailss
-router.get('/', cartdetailsController.getAllcartdetails);
+router.get('/', cartdetailsController.getAllcartdetailsForUser);
 
 // GET cartdetails by ID
 router.get('/:id', cartdetailsController.getcartdetailsById);
@@ -16,5 +16,6 @@ router.put('/:id', cartdetailsController.updatecartdetails);
 
 // DELETE cartdetails by ID
 router.delete('/:id', cartdetailsController.deletecartdetails);
+
 
 module.exports = router;

@@ -1,12 +1,13 @@
-const Cart = require('../models/cartModel');
 const Order = require('../models/orderModel');
-const OrderDetails = require('../models/orderDetailsModel');
+
 const jwt = require('jsonwebtoken');
+const OrderDetails = require('../models/orderDetailsModel');
+const Cart = require('../models/cartModel');
+const CartDetails = require('../models/cartDetailsModel');
 
 
 exports.placeOrder = async (req, res) => {
     try {
-        // Kiểm tra mã token và lấy ID người dùng từ token
         const authHeader = req.headers['authorization'];
         const token = authHeader && authHeader.split(' ')[1];
         if (!token) {
@@ -16,92 +17,99 @@ exports.placeOrder = async (req, res) => {
         const decodedToken = jwt.verify(token, 'your_secret_key');
         const userId = decodedToken.userId;
 
-        // Lấy thông tin giỏ hàng của người dùng
-        const userCart = await Cart.findOne({ user: userId }).populate('cartDetails.product');
-
+        // Lấy giỏ hàng của người dùng
+        const userCart = await Cart.findOne({ user: userId });
         if (!userCart) {
             return res.status(404).json({ message: 'Cart not found' });
         }
 
-        // Tạo order mới
-        const newOrder = new Order({ user: userId, total: 0 }); // Khởi tạo total là 0
+        // Lấy tất cả chi tiết giỏ hàng của giỏ hàng của người dùng và populate thông tin sản phẩm
+        const cartDetails = await CartDetails.find({ cart: userCart._id }).populate('product');
 
-        // Tính toán tổng giá trị đơn hàng
-        let total = 0;
-
-        // Lặp qua từng sản phẩm được chọn trong giỏ hàng và tạo order details cho mỗi sản phẩm
-        for (const cartDetails of userCart.cartDetails) {
-            if (selectedCartDetails.includes(cartDetails._id.toString())) {
-                const subtotal = cartDetails.product.price * cartDetails.quantity;
-
-                // Tạo order details cho sản phẩm được chọn
-                const orderDetails = new OrderDetails({
-                    product: cartDetails.product._id,
-                    quantity: cartDetails.quantity,
-                    subtotal: subtotal,
-                    order: newOrder._id
-                });
-
-                // Cập nhật total của đơn hàng
-                total += subtotal;
-
-                await orderDetails.save();
-
-                // Xoá cart detail này khỏi giỏ hàng
-                await cartDetails.remove();
-            }
+        // Kiểm tra nếu giỏ hàng trống
+        if (cartDetails.length === 0) {
+            return res.status(400).json({ message: 'Your cart is empty' });
         }
 
-        // Cập nhật total của đơn hàng
-        newOrder.total = total;
+        // Tạo đơn hàng mới
+        const newOrder = await Order.create({ user: userId, orderstatus: '65f68bebaa5c214d38cb912a' });
 
-        await newOrder.save();
+        // Tạo chi tiết đơn hàng và tính tổng đơn hàng
+        let total = 0;
+        for (const cartDetail of cartDetails) {
+            const quantity = parseFloat(cartDetail.quantity);
+            const price = parseFloat(cartDetail.product.price);
+            if (isNaN(quantity) || isNaN(price)) {
+                return res.status(400).json({ message: 'Invalid quantity or price' });
+            }
 
-        res.status(201).json({ message: 'Order placed successfully', order: newOrder });
+            const orderDetail = await OrderDetails.create({
+                quantity: quantity,
+                order: newOrder._id,
+                product: cartDetail.product,
+                subtotal: quantity * price
+            });
+            total += orderDetail.subtotal;
+        }
+
+        // Cập nhật tổng đơn hàng
+        await Order.findByIdAndUpdate(newOrder._id, { subtotal: total });
+
+        // Xóa chi tiết giỏ hàng sau khi đã đặt hàng thành công
+        await CartDetails.deleteMany({ cart: userCart._id });
+
+        res.status(201).json({ message: 'Order placed successfully' });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 };
+
+
+
 
 
 exports.getAllorders = async (req, res) => {
     try {
-        const orders = await Order.find({});
-        res.status(200).json(orders);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-};
-
-exports.getorderById = async (req, res) => {
-    try {
-        const { id } = req.params;
-        const order = await Order.findById(id);
+        const order = await order.find({});
         res.status(200).json(order);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
-};
+}
+
+
+exports.getorderById = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const order = await order.findById(id);
+        res.status(200).json(order);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
+
 
 exports.updateorder = async (req, res) => {
     try {
         const { id } = req.params;
-        const updatedOrder = await Order.findByIdAndUpdate(id, req.body, { new: true });
-        res.status(200).json(updatedOrder);
+        const updatedorder = await order.findByIdAndUpdate(id, req.body, { new: true });
+        res.status(200).json(updatedorder);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
-};
+}
+
 
 exports.deleteorder = async (req, res) => {
     try {
         const { id } = req.params;
-        const deletedOrder = await Order.findByIdAndDelete(id);
-        if (!deletedOrder) {
-            return res.status(404).json({ message: `Order with ID ${id} does not exist` });
+        const deletedorder = await order.findByIdAndDelete(id);
+        if (!deletedorder) {
+            return res.status(404).json({ message: `order with ID ${id} does not exist` });
         }
-        res.status(200).json({ message: 'Order deleted successfully' });
+        res.status(200).json({ message: 'order deleted successfully' });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
-};
+}

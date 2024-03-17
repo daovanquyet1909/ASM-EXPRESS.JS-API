@@ -3,6 +3,8 @@ const router = express.Router();
 const cartController = require('../controllers/cartController');
 // const checkPermission = require('../middlewares/checkPermison');
 
+
+
 router.get('/', cartController.getAllcarts);
 
 router.get('/:id', cartController.getcartById);

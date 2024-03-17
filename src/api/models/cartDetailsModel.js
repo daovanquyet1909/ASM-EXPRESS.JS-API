@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const cartdetailsSchema = mongoose.Schema(
     {
-        quantity:{
+        quantity: {
             type: Number,
             required: false,
         },
@@ -10,7 +10,7 @@ const cartdetailsSchema = mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Cart'
         },
-        product:{
+        product: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Product'
         },

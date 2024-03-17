@@ -3,11 +3,11 @@
 const express = require('express');
 const userRoutes = express.Router();
 const userController = require('../controllers/userController');
-const  checkPermission = require('../middlewares/checkPermison');
+// const  checkPermission = require('../middlewares/checkPermison');
 
 
 //get all user
-userRoutes.get('/', checkPermission, userController.getAllUser);
+userRoutes.get('/', userController.getAllUser);
 //get by id user
 userRoutes.get('/:id',  userController.getUserById);
 
