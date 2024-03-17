@@ -9,12 +9,14 @@ router.get('/', productController.getAllProducts);
 router.get('/:id', productController.getProductById);
 
 // POST create new product
-router.post('/', productController.createProduct);
+router.post('/' , checkPermission, productController.createProduct);
 
 // PUT update product by ID
 router.put('/:id',checkPermission, productController.updateProduct);
 
 // DELETE product by ID
-router.delete('/:id', productController.deleteProduct);
+router.delete('/:id' , checkPermission, productController.deleteProduct);
+
+
 
 module.exports = router;

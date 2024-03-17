@@ -9,12 +9,12 @@ router.get('/', categoryController.getAllCategory);
 router.get('/:id', categoryController.getCategoryById);
 
 // POST create new categorys
-router.post('/', categoryController.createCategory);
+router.post('/', checkPermission, categoryController.createCategory);
 
 // PUT update categorys by ID
 router.put('/:id', checkPermission,categoryController.updateCategory);
 
 // DELETE categorys by ID
-router.delete('/:id',categoryController.deleteCategory);
+router.delete('/:id', checkPermission,categoryController.deleteCategory);
 
 module.exports = router;

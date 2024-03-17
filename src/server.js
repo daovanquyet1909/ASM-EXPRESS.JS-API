@@ -15,6 +15,8 @@ const routeCartDetails = require('./api/routes/cartDetailsRoutes');
 const routeOrder = require('./api/routes/orderRoutes');
 const routeOrderDetails = require('./api/routes/orderDetailsRoutes');
 const routeOrderStatus = require('./api/routes/orderStatusRoutes');
+const searchRoutes = require('./api/routes/searchRoutes');
+
 
 const app = express(); // Khai báo biến app trước khi sử dụng nó
 const port = process.env.PORT || 3000;
@@ -41,6 +43,7 @@ app.use('/api/cartdetails', routeCartDetails);
 app.use('/api/order', routeOrder);
 app.use('/api/orderdetails', routeOrderDetails);
 app.use('/api/orderstatus', routeOrderStatus);
+app.use('/api/search', searchRoutes); 
 
 
 

@@ -3,7 +3,7 @@
 const express = require('express');
 const userRoutes = express.Router();
 const userController = require('../controllers/userController');
-// const  checkPermission = require('../middlewares/checkPermison');
+const  checkPermission = require('../middlewares/checkPermison');
 
 
 //get all user
@@ -12,8 +12,8 @@ userRoutes.get('/', userController.getAllUser);
 userRoutes.get('/:id',  userController.getUserById);
 
 //update user by id
-userRoutes.put('/:id',  userController.updateUserById);
+userRoutes.put('/:id', checkPermission,  userController.updateUserById);
 //delete user by id
-userRoutes.delete('/:id',  userController.deleteUserById);
+userRoutes.delete('/:id', checkPermission,  userController.deleteUserById);
 
 module.exports = userRoutes;
