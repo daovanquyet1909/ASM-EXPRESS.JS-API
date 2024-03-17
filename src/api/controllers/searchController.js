@@ -1,7 +1,7 @@
 
 
 const Product = require('../models/productModel');
-const Post = require('../models/postsModel');
+const Post = require('../models/postModel');
 
 exports.searchProductByName = async (req, res) => {
     try {
