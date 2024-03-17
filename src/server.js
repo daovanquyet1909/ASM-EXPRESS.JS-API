@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const connectDB = require('./config/db');
@@ -17,18 +18,13 @@ const routeOrderDetails = require('./api/routes/orderDetailsRoutes');
 const routeOrderStatus = require('./api/routes/orderStatusRoutes');
 const searchRoutes = require('./api/routes/searchRoutes');
 
+const app = express();
+const port = process.env.PORT || 3001;
 
-const app = express(); // Khai báo biến app trước khi sử dụng nó
-const port = process.env.PORT || 3000;
-
-// Sử dụng middleware CORS
 app.use(cors());
-
-// Connect to MongoDB
 connectDB();
 app.use(express.json());
 
-// All Routes this here
 app.use('/api/auth', authRoutes);
 app.use('/api/image', routeImages);
 app.use('/api/product', productRoutes);
@@ -43,16 +39,12 @@ app.use('/api/cartdetails', routeCartDetails);
 app.use('/api/order', routeOrder);
 app.use('/api/orderdetails', routeOrderDetails);
 app.use('/api/orderstatus', routeOrderStatus);
-app.use('/api/search', searchRoutes); 
-
-
-
+app.use('/api/search', searchRoutes);
 
 app.get('/api/', (req, res) => {
     res.send('Hello!');
 });
 
-// Start the server
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
