@@ -17,6 +17,9 @@ exports.placeOrder = async (req, res) => {
         const decodedToken = jwt.verify(token, 'your_secret_key');
         const userId = decodedToken.userId;
 
+        // Lấy thông tin địa chỉ và số điện thoại từ request body
+        const { address, phonenumber } = req.body;
+
         // Lấy giỏ hàng của người dùng
         const userCart = await Cart.findOne({ user: userId });
         if (!userCart) {
@@ -32,7 +35,7 @@ exports.placeOrder = async (req, res) => {
         }
 
         // Tạo đơn hàng mới
-        const newOrder = await Order.create({ user: userId, orderstatus: '65f68bebaa5c214d38cb912a' });
+        const newOrder = await Order.create({ user: userId, orderstatus: '66037bc0fdebad48939dca5f', address, phonenumber });
 
         // Tạo chi tiết đơn hàng và tính tổng đơn hàng
         let total = 0;
@@ -66,49 +69,61 @@ exports.placeOrder = async (req, res) => {
 
 
 
-
-
-exports.getAllorders = async (req, res) => {
+exports.getOrderByToken = async (req, res) => {
     try {
-        const order = await order.find({});
-        res.status(200).json(order);
+        const authHeader = req.headers['authorization'];
+        const token = authHeader && authHeader.split(' ')[1];
+        if (!token) {
+            return res.status(401).json({ message: 'Unauthorized - Token is required' });
+        }
+
+        const decodedToken = jwt.verify(token, 'your_secret_key');
+        const userId = decodedToken.userId;
+
+        const orders = await Order.find({ user: userId });
+        res.status(200).json(orders);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 }
 
+exports.getAllorders = async (req, res) => {
+    try {
+        const orders = await Order.find({});
+        res.status(200).json(orders);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
 
 exports.getorderById = async (req, res) => {
     try {
         const { id } = req.params;
-        const order = await order.findById(id);
+        const order = await Order.findById(id);
         res.status(200).json(order);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 }
 
-
-
 exports.updateorder = async (req, res) => {
     try {
         const { id } = req.params;
-        const updatedorder = await order.findByIdAndUpdate(id, req.body, { new: true });
-        res.status(200).json(updatedorder);
+        const updatedOrder = await Order.findByIdAndUpdate(id, req.body, { new: true });
+        res.status(200).json(updatedOrder);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 }
 
-
 exports.deleteorder = async (req, res) => {
     try {
         const { id } = req.params;
-        const deletedorder = await order.findByIdAndDelete(id);
-        if (!deletedorder) {
-            return res.status(404).json({ message: `order with ID ${id} does not exist` });
+        const deletedOrder = await Order.findByIdAndDelete(id);
+        if (!deletedOrder) {
+            return res.status(404).json({ message: `Order with ID ${id} does not exist` });
         }
-        res.status(200).json({ message: 'order deleted successfully' });
+        res.status(200).json({ message: 'Order deleted successfully' });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }

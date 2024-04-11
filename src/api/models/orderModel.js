@@ -6,7 +6,6 @@ const orderSchema = mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User'
         },
-        
         orderstatus:{
             type: mongoose.Schema.Types.ObjectId,
             ref: 'OrderStatus'
@@ -14,6 +13,14 @@ const orderSchema = mongoose.Schema(
         subtotal:{
             type: Number,
             required: false,
+        },
+        address:{
+            type: String, 
+            required: true, 
+        },
+        phonenumber:{
+            type: String, 
+            required: true, 
         },
     },
     { timestamps: true }

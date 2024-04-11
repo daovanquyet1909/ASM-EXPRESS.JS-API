@@ -1,5 +1,32 @@
 const User = require('../models/userModel');
 const cloudinary = require("../../config/cloudinaryConfig");
+const jwt = require('jsonwebtoken');
+
+
+
+
+exports.getUserByToken = async (req, res) => {
+    try {
+        const authHeader = req.headers['authorization'];
+        const token = authHeader && authHeader.split(' ')[1];
+        if (!token) {
+            return res.status(401).json({ message: 'Unauthorized - Token is required' });
+        }
+
+        const decodedToken = jwt.verify(token, 'your_secret_key');
+        const userId = decodedToken.userId;
+
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        res.status(200).json(user);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
 
 exports.getAllUser = async (req, res) => {
     try {

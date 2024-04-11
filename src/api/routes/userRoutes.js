@@ -7,7 +7,9 @@ const  checkPermission = require('../middlewares/checkPermison');
 
 
 //get all user
-userRoutes.get('/', userController.getAllUser);
+userRoutes.get('/all', userController.getAllUser);
+
+userRoutes.get('/', userController.getUserByToken);
 //get by id user
 userRoutes.get('/:id',  userController.getUserById);
 
